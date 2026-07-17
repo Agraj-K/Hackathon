@@ -13,7 +13,7 @@ import { SystemHealthCheck } from './health/system.health.js';
 @McpApp({
   module: AppModule,
   server: {
-    name: 'calculator-server',
+    name: 'command-center',
     version: '1.0.0'
   },
   logging: {
