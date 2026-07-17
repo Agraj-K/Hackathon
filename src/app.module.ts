@@ -2,6 +2,7 @@ import { McpApp, Module, ConfigModule } from '@nitrostack/core';
 
 import { BoardroomModule } from './modules/boardroom/boardroom.module.js';
 import { IncidentModule } from './modules/incident/incident.module.js';
+import { SecurityModule } from './modules/security/security.module.js';
 import { SystemHealthCheck } from './health/system.health.js';
 
 /**
@@ -26,7 +27,8 @@ import { SystemHealthCheck } from './health/system.health.js';
   imports: [
     ConfigModule.forRoot(),
     BoardroomModule,
-    IncidentModule
+    IncidentModule,
+    SecurityModule
   ],
   providers: [
     // Health Checks
