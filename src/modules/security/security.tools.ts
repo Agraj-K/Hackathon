@@ -12,7 +12,7 @@ export class SecurityTools {
     ctx.logger.info('Analyzing IP reputation with real API', { ip: input.ip_address });
     
     try {
-      // Calling a real public API for IP information (ip-api.com)
+      // Fetch details from public IP API
       const response = await fetch(`http://ip-api.com/json/${input.ip_address}?fields=status,message,country,regionName,city,isp,org,as,query`);
       const data: any = await response.json();
       
@@ -24,8 +24,7 @@ export class SecurityTools {
         };
       }
 
-      // We'll simulate a threat score based on whether it's a known cloud provider 
-      // (since malicious bots often run in datacenters instead of residential IPs).
+      // Determine threat score (datacenters = 75, others = 15)
       const ispName = (data.isp || '').toLowerCase();
       const isDatacenter = ispName.includes('amazon') || ispName.includes('google') || ispName.includes('digitalocean') || ispName.includes('microsoft') || ispName.includes('cloudflare');
       const threat_score = isDatacenter ? 75 : 15;
@@ -59,7 +58,7 @@ export class SecurityTools {
   async fetchRecentLogins(input: any, ctx: ExecutionContext) {
     ctx.logger.info('Fetching recent logins', { target: input.target });
     
-    // Simulated Auth0/Okta integration
+    // Simulated Identity Provider integration
     return {
       target: input.target,
       total_attempts_24h: 154,
@@ -92,7 +91,7 @@ export class SecurityTools {
 
     ctx.logger.info('Blocking IP address', { ip: input.ip_address });
     
-    // Simulated Cloudflare/AWS WAF integration
+    // Simulated WAF integration
     return {
       status: 'SUCCESS',
       message: `Successfully added ${input.ip_address} to the WAF global deny list.`,

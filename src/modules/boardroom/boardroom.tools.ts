@@ -1,8 +1,7 @@
 import { ToolDecorator as Tool, ExecutionContext, z } from '@nitrostack/core';
 import dotenv from 'dotenv';
 
-// Claude Desktop spawns the server as a background process and often misses the local .env file.
-// We explicitly load it here using the absolute path to guarantee it finds the API key.
+// Load env vars with absolute path for Claude Desktop compatibility
 dotenv.config({ path: 'c:\\Users\\agraj\\OneDrive\\Desktop\\Nitrostack\\command-center\\.env' });
 
 const COMPANY_CONTEXT = {
@@ -28,7 +27,7 @@ const COMPANY_CONTEXT = {
 
 // Helper function to call Groq API
 async function callGroqAgent(systemPrompt: string, userPrompt: string, ctx: ExecutionContext) {
-  // We must rely on process.env.GROQ_API_KEY. GitHub will block any attempt to hardcode this secret!
+  // Load Groq API Key from process environment
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
     throw new Error("GROQ_API_KEY is not set in the environment.");

@@ -5,12 +5,7 @@ import { IncidentModule } from './modules/incident/incident.module.js';
 import { SecurityModule } from './modules/security/security.module.js';
 import { SystemHealthCheck } from './health/system.health.js';
 
-/**
- * Root Application Module
- * 
- * This is the main module that bootstraps the MCP server.
- * It registers all feature modules and health checks.
- */
+// Root Application Module that bootstraps the MCP server
 @McpApp({
   module: AppModule,
   server: {

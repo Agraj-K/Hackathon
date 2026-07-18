@@ -1,10 +1,6 @@
 import { HealthCheck, HealthCheckInterface, HealthCheckResult } from '@nitrostack/core';
 
-/**
- * System Health Check
- * 
- * Monitors system resources and uptime
- */
+// System Health Check that monitors system resources and uptime
 @HealthCheck({ 
   name: 'system', 
   description: 'System resource and uptime check',
