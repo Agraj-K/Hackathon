@@ -28,6 +28,7 @@ const COMPANY_CONTEXT = {
 
 // Helper function to call Groq API
 async function callGroqAgent(systemPrompt: string, userPrompt: string, ctx: ExecutionContext) {
+  // We must rely on process.env.GROQ_API_KEY. GitHub will block any attempt to hardcode this secret!
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
     throw new Error("GROQ_API_KEY is not set in the environment.");
