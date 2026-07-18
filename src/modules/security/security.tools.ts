@@ -27,7 +27,7 @@ export class SecurityTools {
       // We'll simulate a threat score based on whether it's a known cloud provider 
       // (since malicious bots often run in datacenters instead of residential IPs).
       const ispName = (data.isp || '').toLowerCase();
-      const isDatacenter = ispName.includes('amazon') || ispName.includes('google') || ispName.includes('digitalocean') || ispName.includes('microsoft');
+      const isDatacenter = ispName.includes('amazon') || ispName.includes('google') || ispName.includes('digitalocean') || ispName.includes('microsoft') || ispName.includes('cloudflare');
       const threat_score = isDatacenter ? 75 : 15;
 
       return {
