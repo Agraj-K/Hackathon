@@ -101,7 +101,6 @@ To test this directly inside your Claude Desktop client, open your Claude config
 
 ---
 
-## 🏆 Hackathon Notes
 *   **Framework:** Built on Model Context Protocol (MCP) using NitroStack.
 *   **Design Pattern:** Human-in-the-loop validation for mutating infrastructure operations.
 *   **RAG Method:** Context Injection prompting to prevent synthetic metrics hallucination in LLM agents.
