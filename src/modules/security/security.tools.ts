@@ -9,27 +9,44 @@ export class SecurityTools {
     })
   })
   async analyzeIpReputation(input: any, ctx: ExecutionContext) {
-    ctx.logger.info('Analyzing IP reputation', { ip: input.ip_address });
+    ctx.logger.info('Analyzing IP reputation with real API', { ip: input.ip_address });
     
-    // Simulated Threat Intel API
-    if (input.ip_address === '192.168.1.100' || input.ip_address.startsWith('10.')) {
-       return {
-         ip: input.ip_address,
-         threat_score: 5,
-         status: 'CLEAN',
-         known_actor: 'Internal Corporate Network',
-         recent_reports: 0
-       };
-    }
+    try {
+      // Calling a real public API for IP information (ip-api.com)
+      const response = await fetch(`http://ip-api.com/json/${input.ip_address}?fields=status,message,country,regionName,city,isp,org,as,query`);
+      const data: any = await response.json();
+      
+      if (data.status === 'fail') {
+        return {
+          ip: input.ip_address,
+          status: 'ERROR',
+          message: data.message || 'Failed to fetch IP details from public API'
+        };
+      }
 
-    return {
-      ip: input.ip_address,
-      threat_score: 98,
-      status: 'MALICIOUS',
-      known_actor: 'APT-29 (Cozy Bear) / Known VPN node',
-      recent_reports: 452,
-      analysis: 'This IP has been flagged in multiple ransomware and brute-force campaigns in the last 48 hours.'
-    };
+      // We'll simulate a threat score based on whether it's a known cloud provider 
+      // (since malicious bots often run in datacenters instead of residential IPs).
+      const ispName = (data.isp || '').toLowerCase();
+      const isDatacenter = ispName.includes('amazon') || ispName.includes('google') || ispName.includes('digitalocean') || ispName.includes('microsoft');
+      const threat_score = isDatacenter ? 75 : 15;
+
+      return {
+        ip: data.query,
+        location: `${data.city}, ${data.regionName}, ${data.country}`,
+        isp_and_org: `${data.isp} / ${data.org}`,
+        asn: data.as,
+        threat_score: threat_score,
+        status: threat_score > 50 ? 'SUSPICIOUS' : 'CLEAN',
+        analysis: `[REAL API DATA]: This IP is located in ${data.country} and belongs to ${data.org}. ${isDatacenter ? 'It belongs to a known datacenter/cloud provider, which often source automated bot traffic.' : 'It appears to be a standard residential or commercial connection.'}`
+      };
+    } catch (error: any) {
+      ctx.logger.error('Failed to fetch real IP data', { error: error.message });
+      return {
+        ip: input.ip_address,
+        status: 'ERROR',
+        message: 'Could not connect to the real IP lookup API.'
+      };
+    }
   }
 
   @Tool({

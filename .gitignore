@@ -8,3 +8,11 @@ coverage/
 *.log
 uploads/
 .nitrostudio/
+.agents/
+.antigravity/
+.claude/
+.codex/
+.copilot/
+.cursor/
+.gemini/
+.opencode/
