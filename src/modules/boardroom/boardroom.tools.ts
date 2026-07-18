@@ -1,4 +1,9 @@
 import { ToolDecorator as Tool, ExecutionContext, z } from '@nitrostack/core';
+import dotenv from 'dotenv';
+
+// Claude Desktop spawns the server as a background process and often misses the local .env file.
+// We explicitly load it here using the absolute path to guarantee it finds the API key.
+dotenv.config({ path: 'c:\\Users\\agraj\\OneDrive\\Desktop\\Nitrostack\\command-center\\.env' });
 
 const COMPANY_CONTEXT = {
   financials: {
